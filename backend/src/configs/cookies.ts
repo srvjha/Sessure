@@ -9,7 +9,7 @@ export function generateCookieOptions({ rememberMe = false }: CookieOptionsArgs 
   const expiry = rememberMe ? env.REFRESH_TOKEN_EXPIRY_REMEMBER_ME : env.REFRESH_TOKEN_EXPIRY;
   return {
     httpOnly: true,
-    secure: env.NODE_ENV === "production",
+    secure: true,
     sameSite: "none" as const,
     maxAge: ms(expiry as StringValue),
   };
