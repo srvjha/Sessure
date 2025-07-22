@@ -85,45 +85,7 @@ const Register = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center justify-center w-full">
-            <GoogleLogin
-              theme="outline"
-              text="continue_with"
-              onSuccess={async (credentialResponse) => {
-                try {
-                  const idToken = credentialResponse.credential;
-                  await googleLogin({
-                    token: idToken!,
-                  }).unwrap();
-
-                  const user = await getProfile().unwrap();
-
-                  dispatch(
-                    setCredentials({
-                      user: user.data,
-                    })
-                  );
-
-                  toast.success("Login successful.");
-                  navigate("/dashboard");
-                } catch (error: any) {
-                  toast.error(error?.data?.message);
-                }
-              }}
-              onError={() => toast.error("Login Failed.")}
-            />
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-border" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-zinc-900 px-2 text-zinc-300/70">
-                Or continue with
-              </span>
-            </div>
-          </div>
+          
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Avatar upload */}
@@ -240,6 +202,47 @@ const Register = () => {
                 </>
               )}
             </Button>
+
+             <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-zinc-900 px-2 text-zinc-300/70">
+                Or continue with
+              </span>
+            </div>
+          </div>
+            <div className="flex items-center justify-center w-full">
+            <GoogleLogin
+              theme="outline"
+              text="continue_with"
+              onSuccess={async (credentialResponse) => {
+                try {
+                  const idToken = credentialResponse.credential;
+                  await googleLogin({
+                    token: idToken!,
+                  }).unwrap();
+
+                  const user = await getProfile().unwrap();
+
+                  dispatch(
+                    setCredentials({
+                      user: user.data,
+                    })
+                  );
+
+                  toast.success("Login successful.");
+                  navigate("/dashboard");
+                } catch (error: any) {
+                  toast.error(error?.data?.message);
+                }
+              }}
+              onError={() => toast.error("Login Failed.")}
+            />
+          </div>
+
+         
           </form>
 
           <div className="text-center text-sm">
