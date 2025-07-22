@@ -280,12 +280,12 @@ export const logout = asyncHandler(async (req, res) => {
       .status(200)
       .clearCookie("accessToken", {
         httpOnly: true,
-        secure: env.NODE_ENV === "production",
+        secure: true,
         sameSite: "strict",
       })
       .clearCookie("refreshToken", {
         httpOnly: true,
-        secure: env.NODE_ENV === "production",
+        secure: true,
         sameSite: "strict",
       })
       .json(new ApiResponse(200, "Logged out successfully", null));
@@ -297,12 +297,12 @@ export const logout = asyncHandler(async (req, res) => {
     .status(200)
     .clearCookie("accessToken", {
       httpOnly: true,
-      secure: env.NODE_ENV === "production",
+      secure: true,
       sameSite: "strict",
     })
     .clearCookie("refreshToken", {
       httpOnly: true,
-      secure: env.NODE_ENV === "production",
+      secure: true,
       sameSite: "strict",
     })
     .json(new ApiResponse(200, "Logged out successfully", null));
