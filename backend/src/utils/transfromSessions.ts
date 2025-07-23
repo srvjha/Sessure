@@ -2,6 +2,7 @@ import { UAParser } from "ua-parser-js";
 import { format } from "date-fns";
 import { logger } from "../configs/logger";
 import { env } from "../configs/env";
+import axios from "axios";
 
 interface SessionWithUserAgent {
   id: string;
@@ -53,14 +54,12 @@ const getLocationFromIP = async (ip: string): Promise<string> => {
 
   try {
     const token = env.IPINFO_TOKEN;
-    const res = await fetch(`https://ipinfo.io/${ip}?token=${token}`);
-    const data = (await res.json()) as { city?: string; country?: string };
-
+    const res = await axios.post(`https://ipinfo.io/${ip}?token=${token}`);
+    const data = res.data
     const location =
       data.city && data.country
         ? `${data.city}, ${data.country}`
         : data.country || "Unknown Location";
-
     return location;
   } catch (err) {
     logger.error("Error fetching IP info", err);
