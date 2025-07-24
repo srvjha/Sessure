@@ -27,6 +27,7 @@ export const transformSessions = async (sessions: SessionWithUserAgent[]) => {
   const transformed: TransformedSession[] = [];
 
   for (const session of sessions) {
+    console.log({session})
     const parser = UAParser(session.userAgent!);
     const browser = parser.browser.name || "Unknown Device";
     const deviceType = parser.device.type || "Desktop";
@@ -51,7 +52,7 @@ export const transformSessions = async (sessions: SessionWithUserAgent[]) => {
 
 const getLocationFromIP = async (ip: string): Promise<string> => {
   if (ip === "::1" || ip === "127.0.0.1") return "Localhost";
-
+   console.log({ip})
   try {
     const token = env.IPINFO_TOKEN;
     const res = await axios.post(`https://ipinfo.io/${ip}?token=${token}`);

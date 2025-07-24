@@ -502,6 +502,7 @@ export const getActiveSessions = asyncHandler(async (req, res) => {
   }));
 
   const removeRefreshToken = setCurrentFlag.map(({ refreshToken, ...rest }) => rest);
+  console.log({removeRefreshToken})
   const formattedSessions = await transformSessions(removeRefreshToken);
 
   res

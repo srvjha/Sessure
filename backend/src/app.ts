@@ -8,6 +8,7 @@ import { ApiError } from "./utils/ApiError";
 const app = express();
 
 app.set("trust proxy", true);
+
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
