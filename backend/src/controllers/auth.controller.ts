@@ -5,7 +5,7 @@ import { prisma } from "../configs/db";
 import { env } from "../configs/env";
 import { logger } from "../configs/logger";
 import { ApiResponse } from "../utils/ApiResponse";
-import {asyncHandler} from "../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler";
 import { generateCookieOptions } from "../configs/cookies";
 import { ApiError } from "../utils/ApiError";
 import { handleZodError } from "../utils/handleZodError";
@@ -127,7 +127,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
     },
   });
 
-  console.log({session:newSession})
+  console.log({ session: newSession });
 
   logger.info("Email verified successfully", {
     email: user.email,
@@ -533,7 +533,7 @@ export const googleLogin = asyncHandler(async (req, res) => {
   const payload = await verifyGoogleToken(token);
 
   const { email, name, picture } = payload;
-  console.log({payload})
+  console.log({ payload });
 
   if (!email || !name || !picture) {
     throw new ApiError(200, "");
@@ -560,7 +560,18 @@ export const googleLogin = asyncHandler(async (req, res) => {
 
   // Creating a session for existing user
   const userAgent = req.headers["user-agent"];
-  const ipAddress = req.ip;
+  const forwarded = req.headers["x-forwarded-for"];
+  let ipAddress: string;
+
+  if (typeof forwarded === "string") {
+    ipAddress = forwarded.split(",")[0].trim();
+  } else if (Array.isArray(forwarded)) {
+    ipAddress = forwarded[0].trim();
+  } else {
+    ipAddress = req.socket.remoteAddress || "Unknown";
+  }
+
+  console.log({ipAddress})
 
   const existingSession = await prisma.session.findFirst({
     where: {
