@@ -572,7 +572,6 @@ export const googleLogin = asyncHandler(async (req, res) => {
     ipAddress = req.socket.remoteAddress || "Unknown";
   }
 
-  console.log({ipAddress})
 
   const existingSession = await prisma.session.findFirst({
     where: {
@@ -585,6 +584,9 @@ export const googleLogin = asyncHandler(async (req, res) => {
   const existingSessionsCount = await prisma.session.count({
     where: { userId: user.id },
   });
+
+  console.log({existingSessionsCount})
+  console.log("max sessions: ",env.MAX_SESSIONS)
 
   // Enforce session limit only if new session is being created
   if (!existingSession && existingSessionsCount >= env.MAX_SESSIONS) {
