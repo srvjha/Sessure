@@ -56,6 +56,7 @@ const getLocationFromIP = async (ip: string): Promise<string> => {
     const token = env.IPINFO_TOKEN;
     const res = await axios.post(`https://ipinfo.io/${ip}?token=${token}`);
     const data = res.data
+    console.log({data})
     const location =
       data.city && data.country
         ? `${data.city}, ${data.country}`
